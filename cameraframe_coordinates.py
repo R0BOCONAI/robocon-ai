@@ -3,6 +3,9 @@ import numpy as np
 import pyrealsense2 as rs
 from ultralytics import YOLO
 import math
+import os
+
+os.environ["CUDA_MODULE_LOADING"] = "LAZY"
 
 def run_yolo():
     W = 640
@@ -17,8 +20,8 @@ def run_yolo():
 
     align_to = rs.stream.color
     align = rs.align(align_to)
-
-    model = YOLO(r"best.engine")
+    
+    model = YOLO(r"models\best.engine",task='detect')
 
     min_z_coordinate = None
 
@@ -27,7 +30,6 @@ def run_yolo():
         aligned_frames = align.process(frames)
         color_frame = aligned_frames.get_color_frame()
         depth_frame = aligned_frames.get_depth_frame()
-        color_intrin = color_frame.profile.as_video_stream_profile().intrinsics
         if not color_frame:
             continue
 
@@ -35,7 +37,8 @@ def run_yolo():
         depth_image = np.asanyarray(depth_frame.get_data())
         depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.08), cv2.COLORMAP_JET)
 
-        results = model(color_image,conf=0.8,classes=0)
+        results = model(color_image, conf=0.8, classes=0)
+
         object_coordinates = []
         for r in results:
             boxes = r.boxes

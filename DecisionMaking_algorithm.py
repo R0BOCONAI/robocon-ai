@@ -5,7 +5,7 @@ import pyrealsense2 as rs
 
 def Silo_Detection():
 
-    model = YOLO(r"best.pt")
+    model = YOLO(r"models\best.engine")
 
     print(model.names)
 
@@ -17,6 +17,7 @@ def Silo_Detection():
 
     def decision_maker(image_input_def):
         global model
+        model = YOLO(r"models\best.engine")
 
         balls_pattern = {'rack_1': {'blue_ball':0,'red_ball':0}, 
                         'rack_2': {'blue_ball':0,'red_ball':0}, 
@@ -132,7 +133,7 @@ def Silo_Detection():
     align_to = rs.stream.color
     align = rs.align(align_to)
 
-    model = YOLO(r"best.pt")
+    # model = YOLO(r"models\best.engine")
 
     min_z_coordinate_blue = None
     min_z_coordinate_purple = None
@@ -161,3 +162,5 @@ def Silo_Detection():
 
     pipeline.stop()
     cv2.destroyAllWindows()
+if  __name__ == '__main__':
+    Silo_Detection()
