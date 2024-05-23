@@ -18,7 +18,7 @@ def run_yolo():
     align_to = rs.stream.color
     align = rs.align(align_to)
 
-    model = YOLO(r"best.pt")
+    model = YOLO(r"best.engine")
 
     min_z_coordinate = None
 
@@ -35,7 +35,7 @@ def run_yolo():
         depth_image = np.asanyarray(depth_frame.get_data())
         depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.08), cv2.COLORMAP_JET)
 
-        results = model(color_image,conf=0.9,classes=0)
+        results = model(color_image,conf=0.8,classes=0)
         object_coordinates = []
         for r in results:
             boxes = r.boxes
@@ -56,7 +56,7 @@ def run_yolo():
         if object_coordinates:
             min_z_coordinate = min(object_coordinates, key=lambda coord: coord[2])
             print("Coordinate with minimum z value: ", min_z_coordinate)
-            break
+            # break
             
         annotated_frame = results[0].plot()
         cv2.imshow("color_image", annotated_frame)
