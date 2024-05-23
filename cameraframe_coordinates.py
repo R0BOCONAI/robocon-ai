@@ -56,6 +56,7 @@ def run_yolo():
         if object_coordinates:
             min_z_coordinate = min(object_coordinates, key=lambda coord: coord[2])
             print("Coordinate with minimum z value: ", min_z_coordinate)
+            break
             
         annotated_frame = results[0].plot()
         cv2.imshow("color_image", annotated_frame)
@@ -67,5 +68,5 @@ def run_yolo():
     pipeline.stop()
     cv2.destroyAllWindows()
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     run_yolo()
