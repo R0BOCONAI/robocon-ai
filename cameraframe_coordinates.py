@@ -21,7 +21,7 @@ def run_yolo():
     align_to = rs.stream.color
     align = rs.align(align_to)
     
-    model = YOLO(r"models\best.engine",task='detect')
+    model = YOLO(r"models\best.engine",task='track')
 
     min_z_coordinate = None
 
