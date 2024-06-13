@@ -21,7 +21,7 @@ def run_yolo():
     align_to = rs.stream.color
     align = rs.align(align_to)
     
-    model = YOLO(r"models\best.engine",task='track')
+    model = YOLO(r"models\ball-detection.engine",task='detect')
 
     min_z_coordinate = None
 
@@ -37,7 +37,7 @@ def run_yolo():
         depth_image = np.asanyarray(depth_frame.get_data())
         depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.08), cv2.COLORMAP_JET)
 
-        results = model(color_image, conf=0.8, classes=0)
+        results = model(color_image, conf=0.6,classes=0)
 
         object_coordinates = []
         for r in results:
